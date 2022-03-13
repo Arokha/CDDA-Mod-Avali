@@ -16,10 +16,11 @@
     "points": 0,
     "visibility": 3,
     "ugliness": 1,
-    "description": "Your eyes have mutated; now you have big, brightly colored eyes.  It's visually striking, but doesn't alter your vision.",
+    "description": "Your eyes have mutated; now you have big, brightly colored eyes.  It's visually striking, but does worsen your vision.",
     "social_modifiers": { "lie": 2, "persuade": 2 },
     "types": [ "EYES" ],
     "category": [ "AVALI" ],
+    "flags": [ "MYOPIC" ],
     "threshreq": [ "THRESH_AVALI" ]
   },
   {
@@ -67,6 +68,7 @@
     "description": "You have four ears instead of two, and they wiggle and twist towards sounds.  Your ability to detect distant noises is quite impressive.",
     "types": [ "EARS" ],
     "prereqs": [ "AVI_EARS1" ],
+    "prereqs2": [ "GOODHEARING" ],
     "category": [ "AVALI" ],
     "hearing_modifier": 2.5,
     "threshreq": [ "THRESH_AVALI" ]
@@ -79,10 +81,86 @@
     "mixed_effect": true,
     "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8 C) degrees above 65 F (18.3 C). Your metabolism is more effective, however.",
     "types": [ "METABOLISM" ],
+    "prereqs": [ "LIGHTEATER" ],
     "category": [ "AVALI" ],
     "temperature_speed_modifier": -0.2,
     "metabolism_modifier": -0.333,
     "threshreq": [ "THRESH_AVALI" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AVI_FEATHERS",
+    "name": { "str": "Avali Feathers" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 3,    
+    "bodytemp_modifiers": [ 50, 100 ],
+    "description": "Three colored feathers have grown to cover your entire body, following specific pattern and providing a marginal protection against attacks and minor protection from cold.",
+    "types": [ "SKIN" ],
+    "prereqs": [ "SKIN_ROUGH" ],
+    "category": [ "AVALI" ],
+    "threshreq": [ "THRESH_AVALI" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AVI_LEGS",
+    "name": { "str": "Avali legs" },
+    "points": -1,
+    "visibility": 4,
+    "ugliness": 3,
+    "mixed_effect": true,
+    "description": "Your feed significantly elongolated and legs changed to support digitigrade stance. On bright side they give spring to your walk and you able to use claws as natural weapon, but as a downside you unable to wear boots anymore.",
+    "types": [  "FEET" ],
+    "restricts_gear": [ "foot_l", "foot_r" ],
+    "destroys_gear": true,
+    "prereqs": [ "LIGHTSTEP" ],
+    "prereqs2": [ "FLEET" ],
+    "category": [ "AVALI" ],
+    "attacks": {
+      "attack_text_u": "You cut %s with your leg claws",
+      "attack_text_npc": "%1$s cut %2$s with their leg claws",
+      "chance": 15,
+      "strength_damage": { "damage_type": "cut", "amount": 1.5 },
+    "threshreq": [ "THRESH_AVALI" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AVI_HANDS",
+    "name": { "str": "Winged hands" },
+    "points": 2,
+    "visibility": 3,
+    "ugliness": 2,
+    "mixed_effect": true,
+    "cut_dmg_bonus": 3,
+    "pierce_dmg_bonus": 3,
+    "butchering_quality": 4,
+    "description": "Your arms developed into wing-arms with ring and pinky fingers on hands fusing into long 'wing' fingers. Wingspan is too small to fly, but enough to slow your descent during a fall. Manipulation with only three fingers was hard at start, but after some time and practice you found out that this does not affect your fine manipulation much.",
+    "encumbrance_always": [ [ "hand_l", 5 ], [ "hand_r", 5 ] ],
+    "restricts_gear": [ "hand_l", "hand_r" ],
+    "types": [ "HANDS", "CLAWS" ],
+    "prereqs": [ "CLAWS" ],
+    "prereqs2": [ "ARM_FEATHERS" ],
+    "cancels": [ "TALONS" ],
+    "category": [ "AVALI" ],
+    "flags": [ "WINGS_2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PADDED_FEET",
+    "copy-from": "PADDED_FEET",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION2",
+    "copy-from": "NIGHTVISION2",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GOODHEARING",
+    "copy-from": "GOODHEARING",
+    "extend": { "category": [ "AVALI" ], "changes_to": [ "AVI_EARS2" ] }
   },
   {
     "type": "mutation",
@@ -122,44 +200,20 @@
   },
   {
     "type": "mutation",
-    "id": "LIGHTFUR",
-    "copy-from": "LIGHTFUR",
-    "extend": { "category": [ "AVALI" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "FUR",
-    "copy-from": "FUR",
-    "extend": { "category": [ "AVALI" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "LONGNAILS",
-    "copy-from": "LONGNAILS",
-    "extend": { "category": [ "AVALI" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "GHTSTEP",
-    "copy-from": "GHTSTEP",
+    "id": "CLAWS",
+    "copy-from": "CLAWS",
     "extend": { "category": [ "AVALI" ] }
   },
   {
     "type": "mutation",
     "id": "SKIN_ROUGH",
     "copy-from": "SKIN_ROUGH",
-    "extend": { "category": [ "AVALI" ] }
+    "extend": { "category": [ "AVALI" ], "changes_to": [ "AVI_FEATHERS" ] }
   },
   {
     "type": "mutation",
     "id": "FANGS",
     "copy-from": "FANGS",
-    "extend": { "category": [ "AVALI" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "FORKED_TONGUE",
-    "copy-from": "FORKED_TONGUE",
     "extend": { "category": [ "AVALI" ] }
   },
   {
