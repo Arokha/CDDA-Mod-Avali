@@ -19,6 +19,8 @@
     "description": "Your eyes have mutated; now you have big, brightly colored eyes.  It's visually striking, but does worsen your vision.",
     "social_modifiers": { "lie": 2, "persuade": 2 },
     "types": [ "EYES" ],
+    "prereqs": [ "NIGHTVISION3" ],
+    "prereqs2": [ "TROGLO" ],
     "category": [ "AVALI" ],
     "flags": [ "MYOPIC" ],
     "threshreq": [ "THRESH_AVALI" ]
@@ -76,10 +78,11 @@
   {
     "type": "mutation",
     "id": "AVI_BLOOD",
-    "name": { "str": "Avali Metabolism" },
+    "name": { "str": "Avali Blood" },
     "points": 0,
     "mixed_effect": true,
-    "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8 C) degrees above 65 F (18.3 C). Your metabolism is more effective, however.",
+    "bodytemp_modifiers": [ 3000, 1500 ],
+    "description": "Your internal organs changed drastically to adapt you for living in colder environments, now your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8 C) degrees above 65 F (18.3 C). Your metabolism is more effective, however.",
     "types": [ "METABOLISM" ],
     "prereqs": [ "LIGHTEATER" ],
     "category": [ "AVALI" ],
@@ -104,29 +107,30 @@
   {
     "type": "mutation",
     "id": "AVI_LEGS",
-    "name": { "str": "Avali legs" },
+    "name": { "str": "Avali Legs" },
     "points": -1,
     "visibility": 4,
     "ugliness": 3,
     "mixed_effect": true,
-    "description": "Your feed significantly elongolated and legs changed to support digitigrade stance. On bright side they give spring to your walk and you able to use claws as natural weapon, but as a downside you unable to wear boots anymore.",
-    "types": [  "FEET" ],
+    "description": "Your feet significantly elongolated and legs changed to support digitigrade stance. On bright side they give spring to your walk and you able to use claws as natural weapon, but as a downside you unable to wear boots anymore.",
+    "types": [ "FEET" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
     "prereqs": [ "LIGHTSTEP" ],
     "prereqs2": [ "FLEET" ],
     "category": [ "AVALI" ],
+    "threshreq": [ "THRESH_AVALI" ],
     "attacks": {
       "attack_text_u": "You cut %s with your leg claws",
       "attack_text_npc": "%1$s cut %2$s with their leg claws",
       "chance": 15,
-      "strength_damage": { "damage_type": "cut", "amount": 1.5 },
-    "threshreq": [ "THRESH_AVALI" ]
+      "strength_damage": { "damage_type": "cut", "amount": 1.5 }
+    }
   },
   {
     "type": "mutation",
     "id": "AVI_HANDS",
-    "name": { "str": "Winged hands" },
+    "name": { "str": "Winged Arms" },
     "points": 2,
     "visibility": 3,
     "ugliness": 2,
@@ -135,14 +139,47 @@
     "pierce_dmg_bonus": 3,
     "butchering_quality": 4,
     "description": "Your arms developed into wing-arms with ring and pinky fingers on hands fusing into long 'wing' fingers. Wingspan is too small to fly, but enough to slow your descent during a fall. Manipulation with only three fingers was hard at start, but after some time and practice you found out that this does not affect your fine manipulation much.",
-    "encumbrance_always": [ [ "hand_l", 5 ], [ "hand_r", 5 ] ],
+    "encumbrance_always": [ [ "hand_l", 5 ], [ "hand_r", 5 ], [ "arm_l", 5 ], [ "arm_r", 5 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS", "CLAWS" ],
     "prereqs": [ "CLAWS" ],
     "prereqs2": [ "ARM_FEATHERS" ],
     "cancels": [ "TALONS" ],
     "category": [ "AVALI" ],
+    "threshreq": [ "THRESH_AVALI" ],
     "flags": [ "WINGS_2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AVI_MUZZLE",
+    "name": { "str": "Avali Muzzle" },
+    "points": 0,
+    "visibility": 6,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "consume_time_modifier": 0.6,
+    "description": "Your face reshaped in very strange way. While your muzzle elongolated, nothing left from your nose, but strangely you still able to breathe freely with your mouth shut. Also your teeth grown into incredibly sharp triangular row of fangs. In addition to letting you eat faster, you can use them as a lethal natural weapon.",
+    "types": [ "TEETH", "MUZZLE" ],
+    "prereqs": [ "SNOUT" ],
+    "prereqs2": [ "FANGS" ],
+    "restricts_gear": [ "mouth" ],
+    "allow_soft_gear": true,
+    "category": [ "AVALI" ],
+    "threshreq": [ "THRESH_AVALI" ],
+    "social_modifiers": { "intimidate": 5 },
+    "attacks": {
+      "attack_text_u": "You tear into %s with your teeth",
+      "attack_text_npc": "%1$s tears into %2$s with their teeth",
+      "body_part": "mouth",
+      "chance": 20,
+      "base_damage": { "damage_type": "stab", "amount": 20 }
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "TROGLO",
+    "copy-from": "TROGLO",
+    "extend": { "category": [ "AVALI" ] }
   },
   {
     "type": "mutation",
@@ -152,8 +189,8 @@
   },
   {
     "type": "mutation",
-    "id": "NIGHTVISION2",
-    "copy-from": "NIGHTVISION2",
+    "id": "NIGHTVISION3",
+    "copy-from": "NIGHTVISION3",
     "extend": { "category": [ "AVALI" ] }
   },
   {
@@ -172,7 +209,7 @@
     "type": "mutation",
     "id": "LIGHTEATER",
     "copy-from": "LIGHTEATER",
-    "extend": { "category": [ "AVALI" ] }
+    "extend": { "category": [ "AVALI" ], "changes_to": [ "AVI_BLOOD" ] }
   },
   {
     "type": "mutation",
@@ -230,26 +267,8 @@
   },
   {
     "type": "mutation",
-    "id": "PER_UP",
-    "copy-from": "PER_UP",
-    "extend": { "category": [ "AVALI" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "PER_UP_2",
-    "copy-from": "PER_UP_2",
-    "extend": { "category": [ "AVALI" ] }
-  },
-  {
-    "type": "mutation",
     "id": "PER_UP_3",
     "copy-from": "PER_UP_3",
-    "extend": { "category": [ "AVALI" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "DEX_UP",
-    "copy-from": "DEX_UP",
     "extend": { "category": [ "AVALI" ] }
   },
   {
@@ -260,14 +279,20 @@
   },
   {
     "type": "mutation",
-    "id": "BADBACK",
-    "copy-from": "BADBACK",
+    "id": "SMALL",
+    "copy-from": "SMALL",
     "extend": { "category": [ "AVALI" ] }
   },
   {
     "type": "mutation",
     "id": "NOMAD",
     "copy-from": "NOMAD",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD2",
+    "copy-from": "NOMAD2",
     "extend": { "category": [ "AVALI" ] }
   },
   {
@@ -296,26 +321,8 @@
   },
   {
     "type": "mutation",
-    "id": "NOMAD2",
-    "copy-from": "NOMAD2",
-    "extend": { "category": [ "AVALI" ] }
-  },
-  {
-    "type": "mutation",
     "id": "SNOUT",
     "copy-from": "SNOUT",
-    "extend": { "category": [ "AVALI" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "MUZZLE_LONG",
-    "copy-from": "MUZZLE_LONG",
-    "extend": { "category": [ "AVALI" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "RAP_TALONS",
-    "copy-from": "RAP_TALONS",
     "extend": { "category": [ "AVALI" ] }
   }
 ]
